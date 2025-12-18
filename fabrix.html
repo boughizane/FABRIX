@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fabrix - Recyclage Intelligent</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c34 0%, #2d5f4f 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        /* =========================
+           PAGE DE CONNEXION
+        ========================= */
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .login-box {
+            background: white;
+            padding: 50px 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        .login-box h1 {
+            color: #2d5f4f;
+            margin-bottom: 10px;
+            font-size: 32px;
+        }
+
+        .login-box p {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #4caf50;
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(76, 175, 80, 0.3);
+        }
+
+        .error-message {
+            background: #ffebee;
+            color: #c62828;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-size: 14px;
+            display: none;
+            border-left: 4px solid #c62828;
+        }
+
+        /* =========================
+           PAGE PRINCIPALE
+        ========================= */
+        .main-container {
+            display: none;
+            padding: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            padding: 20px 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header-logo {
+            font-size: 36px;
+        }
+
+        .header-title h1 {
+            color: #2d5f4f;
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+
+        .header-title p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .btn-logout {
+            padding: 12px 25px;
+            background: #f44336;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-logout:hover {
+            background: #d32f2f;
+            transform: translateY(-2px);
+        }
+
+        /* =========================
+           TABLEAU DE BORD ANALYTIQUE
+        ========================= */
+        .analytics-section {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .analytics-section h2 {
+            color: #2d5f4f;
+            margin-bottom: 25px;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(76, 175, 80, 0.2);
+            border-color: #4caf50;
+        }
+
+        .stat-icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+
+        .stat-value {
+            font-size: 36px;
+            font-weight: bold;
+            color: #2d5f4f;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: #555;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .resource-card {
+            background: #f5f5f5;
+            padding: 25px;
+            border-radius: 12px;
+            border-left: 5px solid #4caf50;
+        }
+
+        .resource-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .resource-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .resource-amount {
+            font-size: 28px;
+            font-weight: bold;
+            color: #4caf50;
+        }
+
+        .resource-bar {
+            height: 12px;
+            background: #e0e0e0;
+            border-radius: 6px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .resource-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4caf50 0%, #66bb6a 100%);
+            transition: width 0.5s ease;
+        }
+
+        /* =========================
+           SECTION PRODUITS
+        ========================= */
+        .products-section {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .products-section h2 {
+            color: #2d5f4f;
+            margin-bottom: 25px;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .product-card {
+            background: #f9f9f9;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+            cursor: pointer;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            border-color: #4caf50;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+            border-bottom: 3px solid #4caf50;
+        }
+
+        .product-info {
+            padding: 20px;
+        }
+
+        .product-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .product-materials {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .material-tag {
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .material-plastic {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .material-metal {
+            background: #fce4ec;
+            color: #c2185b;
+        }
+
+        /* =========================
+           MODAL DE COMMANDE
+        ========================= */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 1000;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: white;
+            max-width: 500px;
+            margin: 80px auto;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideDown 0.4s;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .modal-header h3 {
+            color: #2d5f4f;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .modal-product-icon {
+            font-size: 60px;
+            margin-bottom: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            color: #555;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .material-options {
+            display: flex;
+            gap: 15px;
+        }
+
+        .material-option {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .material-option:hover {
+            border-color: #4caf50;
+            background: #f1f8f4;
+        }
+
+        .material-option.selected {
+            border-color: #4caf50;
+            background: #e8f5e9;
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+        }
+
+        .material-option-icon {
+            font-size: 30px;
+            margin-bottom: 8px;
+        }
+
+        .material-option-name {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input[type="number"] {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+        }
+
+        .form-group input[type="number"]:focus {
+            outline: none;
+            border-color: #4caf50;
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-validate {
+            background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+            color: white;
+        }
+
+        .btn-validate:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(76, 175, 80, 0.3);
+        }
+
+        .btn-cancel {
+            background: #f5f5f5;
+            color: #666;
+        }
+
+        .btn-cancel:hover {
+            background: #e0e0e0;
+        }
+
+        .validation-message {
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            font-weight: 600;
+            text-align: center;
+            display: none;
+        }
+
+        .validation-message.success {
+            background: #e8f5e9;
+            color: #2e7d32;
+            border-left: 4px solid #4caf50;
+        }
+
+        .validation-message.error {
+            background: #ffebee;
+            color: #c62828;
+            border-left: 4px solid #f44336;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+        @media (max-width: 768px) {
+            .header {
+                text-align: center;
+            }
+
+            .header-left {
+                flex-direction: column;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-content {
+                margin: 20px;
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ========================= PAGE DE CONNEXION ========================= -->
+    <div class="login-container" id="loginPage">
+        <div class="login-box">
+            <div class="logo">♻️</div>
+            <h1>Fabrix</h1>
+            <p>Recyclage Intelligent Universitaire</p>
+            
+            <div class="input-group">
+                <label for="adminCode">Code Administrateur</label>
+                <input type="password" id="adminCode" placeholder="Entrez le code (0000)" maxlength="4">
+            </div>
+            
+            <button class="btn-login" onclick="login()">Accéder</button>
+            
+            <div class="error-message" id="loginError">
+                ❌ Code incorrect. Veuillez réessayer.
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================= PAGE PRINCIPALE ========================= -->
+    <div class="main-container" id="mainPage">
+        <!-- En-tête -->
+        <div class="header">
+            <div class="header-left">
+                <div class="header-logo">♻️</div>
+                <div class="header-title">
+                    <h1>Fabrix Dashboard</h1>
+                    <p>Système de gestion de recyclage intelligent</p>
+                </div>
+            </div>
+            <button class="btn-logout" onclick="logout()">Déconnexion</button>
+        </div>
+
+        <!-- Section Analytique -->
+        <div class="analytics-section">
+            <h2>📊 Tableau de Bord Analytique</h2>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">🗑️</div>
+                    <div class="stat-value" id="totalWaste">0</div>
+                    <div class="stat-label">Déchets dans la poubelle (kg)</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">⚙️</div>
+                    <div class="stat-value" id="totalProduced">0</div>
+                    <div class="stat-label">Produits fabriqués</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">♻️</div>
+                    <div class="stat-value" id="recyclingRate">0%</div>
+                    <div class="stat-label">Taux de recyclage</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">🌱</div>
+                    <div class="stat-value" id="co2Saved">0</div>
+                    <div class="stat-label">CO₂ économisé (kg)</div>
+                </div>
+            </div>
+
+            <h3 style="color: #2d5f4f; margin-bottom: 20px; font-size: 20px;">📦 Ressources Disponibles</h3>
+            <div class="resources-grid">
+                <div class="resource-card">
+                    <div class="resource-header">
+                        <div class="resource-name">
+                            <span>🔵</span>
+                            Plastique
+                        </div>
+                        <div class="resource-amount" id="plasticAmount">500</div>
+                    </div>
+                    <div class="resource-bar">
+                        <div class="resource-bar-fill" id="plasticBar" style="width: 100%"></div>
+                    </div>
+                </div>
+                
+                <div class="resource-card">
+                    <div class="resource-header">
+                        <div class="resource-name">
+                            <span>⚪</span>
+                            Métal
+                        </div>
+                        <div class="resource-amount" id="metalAmount">300</div>
+                    </div>
+                    <div class="resource-bar">
+                        <div class="resource-bar-fill" id="metalBar" style="width: 100%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section Produits -->
+        <div class="products-section">
+            <h2>🏭 Catalogue de Production</h2>
+            
+            <div class="products-grid" id="productsGrid">
+                <!-- Les produits seront générés par JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================= MODAL DE COMMANDE ========================= -->
+    <div class="modal" id="orderModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-product-icon" id="modalIcon"></div>
+                <h3 id="modalTitle"></h3>
+            </div>
+
+            <div class="form-group">
+                <label>Sélectionnez le matériau :</label>
+                <div class="material-options" id="materialOptions">
+                    <!-- Options générées par JavaScript -->
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="quantity">Quantité à fabriquer :</label>
+                <input type="number" id="quantity" min="1" value="1" placeholder="Entrez la quantité">
+            </div>
+
+            <div class="modal-actions">
+                <button class="btn btn-cancel" onclick="closeModal()">Annuler</button>
+                <button class="btn btn-validate" onclick="validateOrder()">Valider la fabrication</button>
+            </div>
+
+            <div class="validation-message" id="validationMessage"></div>
+        </div>
+    </div>
+
+    <script>
+        // ========================= DONNÉES ========================= //
+        
+        // Liste des produits disponibles
+        const products = [
+            {
+                id: 1,
+                name: "Supports pour Capteurs (Ultrason, IR, Caméra)",
+                image: "images/supports-capteurs.jpg",
+                materials: ["plastic", "metal"],
+                plasticCost: 15,
+                metalCost: 20
+            },
+            {
+                id: 2,
+                name: "Roues de Petits Robots",
+                image: "images/roues-robot.jpg",
+                materials: ["plastic", "metal"],
+                plasticCost: 10,
+                metalCost: 15
+            },
+            {
+                id: 3,
+                name: "Châssis de Robots Éducatifs",
+                image: "images/chassis-robot.jpg",
+                materials: ["plastic", "metal"],
+                plasticCost: 50,
+                metalCost: 70
+            },
+            {
+                id: 4,
+                name: "Supports 3D pour Moteurs et Servomoteurs",
+                image: "images/supports-moteurs.jpg",
+                materials: ["plastic", "metal"],
+                plasticCost: 18,
+                metalCost: 25
+            },
+            {
+                id: 5,
+                name: "Badges et Porte-Badges",
+                image: "images/badges.jpg",
+                materials: ["plastic"],
+                plasticCost: 8,
+                metalCost: 0
+            }
+        ];
+
+        // Ressources disponibles
+        let resources = {
+            plastic: 500,
+            metal: 300,
+            maxPlastic: 500,
+            maxMetal: 300
+        };
+
+        // Statistiques
+        let stats = {
+            totalWaste: 800, // Total des déchets dans la poubelle
+            totalProduced: 0,
+            plasticUsed: 0,
+            metalUsed: 0
+        };
+
+        // Produit actuellement sélectionné
+        let selectedProduct = null;
+        let selectedMaterial = null;
+
+        // ========================= AUTHENTIFICATION ========================= //
+        
+        function login() {
+            const code = document.getElementById('adminCode').value;
+            const errorMsg = document.getElementById('loginError');
+            
+            if (code === '0000') {
+                document.getElementById('loginPage').style.display = 'none';
+                document.getElementById('mainPage').style.display = 'block';
+                errorMsg.style.display = 'none';
+                initApp();
+            } else {
+                errorMsg.style.display = 'block';
+                document.getElementById('adminCode').value = '';
+            }
+        }
+
+        function logout() {
+            document.getElementById('mainPage').style.display = 'none';
+            document.getElementById('loginPage').style.display = 'flex';
+            document.getElementById('adminCode').value = '';
+        }
+
+        // Permettre la connexion avec la touche Entrée
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('adminCode').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    login();
+                }
+            });
+        });
+
+        // ========================= INITIALISATION ========================= //
+        
+        function initApp() {
+            renderProducts();
+            updateDashboard();
+        }
+
+        // ========================= AFFICHAGE DES PRODUITS ========================= //
+        
+        function renderProducts() {
+            const grid = document.getElementById('productsGrid');
+            grid.innerHTML = '';
+
+            products.forEach(product => {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.onclick = () => openOrderModal(product);
+
+                const materialsHTML = product.materials.map(mat => {
+                    const className = mat === 'plastic' ? 'material-plastic' : 'material-metal';
+                    const label = mat === 'plastic' ? 'Plastique' : 'Métal';
+                    return `<span class="material-tag ${className}">${label}</span>`;
+                }).join('');
+
+                card.innerHTML = `
+                    <div class="product-image">
+                        <img src="${product.image}" alt="${product.name}" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-name">${product.name}</div>
+                        <div class="product-materials">
+                            ${materialsHTML}
+                        </div>
+                    </div>
+                `;
+
+                grid.appendChild(card);
+            });
+        }
+
+        // ========================= MODAL DE COMMANDE ========================= //
+        
+        function openOrderModal(product) {
+            selectedProduct = product;
+            selectedMaterial = null;
+
+            // Afficher l'image du produit dans le modal
+            document.getElementById('modalIcon').innerHTML = `<img src="${product.image}" alt="${product.name}" style="width: 100px; height: 100px; object-fit: cover; border-radius: 10px;">`;
+            document.getElementById('modalTitle').textContent = product.name;
+            document.getElementById('quantity').value = 1;
+            document.getElementById('validationMessage').style.display = 'none';
+
+            // Générer les options de matériaux
+            const optionsContainer = document.getElementById('materialOptions');
+            optionsContainer.innerHTML = '';
+
+            product.materials.forEach(material => {
+                const option = document.createElement('div');
+                option.className = 'material-option';
+                option.onclick = () => selectMaterial(material);
+
+                const icon = material === 'plastic' ? '🔵' : '⚪';
+                const name = material === 'plastic' ? 'Plastique' : 'Métal';
+                const cost = material === 'plastic' ? product.plasticCost : product.metalCost;
+
+                option.innerHTML = `
+                    <div class="material-option-icon">${icon}</div>
+                    <div class="material-option-name">${name}</div>
+                    <div style="font-size: 12px; color: #888; margin-top: 5px;">${cost}g/unité</div>
+                `;
+                option.dataset.material = material;
+
+                optionsContainer.appendChild(option);
+            });
+
+            document.getElementById('orderModal').style.display = 'block';
+        }
+
+        function selectMaterial(material) {
+            selectedMaterial = material;
+            document.querySelectorAll('.material-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            document.querySelector(`[data-material="${material}"]`).classList.add('selected');
+        }
+
+        function closeModal() {
+            document.getElementById('orderModal').style.display = 'none';
+            selectedProduct = null;
+            selectedMaterial = null;
+        }
+
+        // ========================= VALIDATION DE LA COMMANDE ========================= //
+        
+        function validateOrder() {
+            const quantity = parseInt(document.getElementById('quantity').value);
+            const messageDiv = document.getElementById('validationMessage');
+
+            // Vérifications
+            if (!selectedMaterial) {
+                showMessage('Veuillez sélectionner un matériau', 'error');
+                return;
+            }
+
+            if (!quantity || quantity < 1) {
+                showMessage('Veuillez entrer une quantité valide', 'error');
+                return;
+            }
+
+            // Calculer le coût
+            const costPerUnit = selectedMaterial === 'plastic' 
+                ? selectedProduct.plasticCost 
+                : selectedProduct.metalCost;
+            const totalCost = costPerUnit * quantity;
+
+            // Vérifier la disponibilité
+            const available = resources[selectedMaterial];
+
+            if (totalCost > available) {
+                const materialName = selectedMaterial === 'plastic' ? 'plastique' : 'métal';
+                showMessage(
+                    `❌ Ressources insuffisantes : pas assez de ${materialName}. 
+                    Disponible : ${available}g | Requis : ${totalCost}g`,
+                    'error'
+                );
+                return;
+            }
+
+            // Fabrication réussie
+            resources[selectedMaterial] -= totalCost;
+            stats.totalProduced += quantity;
+            
+            if (selectedMaterial === 'plastic') {
+                stats.plasticUsed += totalCost;
+            } else {
+                stats.metalUsed += totalCost;
+            }
+
+            updateDashboard();
+
+            showMessage(
+                `✅ Validation réussie : fabrication possible ! 
+                ${quantity} ${selectedProduct.name} en ${selectedMaterial === 'plastic' ? 'plastique' : 'métal'}`,
+                'success'
+            );
+
+            // Fermer le modal après 2 secondes
+            setTimeout(() => {
+                closeModal();
+            }, 2000);
+        }
+
+        function showMessage(text, type) {
+            const messageDiv = document.getElementById('validationMessage');
+            messageDiv.textContent = text;
+            messageDiv.className = `validation-message ${type}`;
+            messageDiv.style.display = 'block';
+        }
+
+        // ========================= MISE À JOUR DU DASHBOARD ========================= //
+        
+        function updateDashboard() {
+            // Mettre à jour les ressources
+            document.getElementById('plasticAmount').textContent = resources.plastic + 'g';
+            document.getElementById('metalAmount').textContent = resources.metal + 'g';
+
+            const plasticPercent = (resources.plastic / resources.maxPlastic) * 100;
+            const metalPercent = (resources.metal / resources.maxMetal) * 100;
+
+            document.getElementById('plasticBar').style.width = plasticPercent + '%';
+            document.getElementById('metalBar').style.width = metalPercent + '%';
+
+            // Mettre à jour les statistiques
+            const totalUsed = stats.plasticUsed + stats.metalUsed;
+            const recyclingRate = stats.totalWaste > 0 
+                ? Math.round((totalUsed / stats.totalWaste) * 100) 
+                : 0;
+            const co2Saved = Math.round(totalUsed * 0.5); // 0.5kg CO2 par kg recyclé
+
+            document.getElementById('totalWaste').textContent = stats.totalWaste;
+            document.getElementById('totalProduced').textContent = stats.totalProduced;
+            document.getElementById('recyclingRate').textContent = recyclingRate + '%';
+            document.getElementById('co2Saved').textContent = co2Saved;
+        }
+
+        // Fermer le modal en cliquant en dehors
+        window.onclick = function(event) {
+            const modal = document.getElementById('orderModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>
